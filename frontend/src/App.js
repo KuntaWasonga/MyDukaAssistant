@@ -9,7 +9,6 @@ import ScanItem from "./pages/ScanItem";
 import ViewCart from "./pages/ViewCart";
 import EmployeeHome from "./pages/EmployeeHome";
 import CheckCustomer from "./pages/CheckCustomer";
-import EmployeeHome from "./pages/EmployeeHome";
 import AddProduct from "./pages/AddProduct";
 
 function App() {
