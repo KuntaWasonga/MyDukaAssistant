@@ -10,6 +10,7 @@ import EmployeeHome from "./pages/EmployeeHome";
 import CheckCustomer from "./pages/CheckCustomer";
 import AddProduct from "./pages/AddProduct";
 import LoginPage from "./pages/LoginPage";
+import RegistrationPage from './pages/Registration';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/check" element={<CheckCustomer />} />
             <Route path="/add" element={<AddProduct />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegistrationPage />} />
           </Routes>
         </BrowserRouter>
       </div>
