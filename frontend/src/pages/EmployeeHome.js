@@ -1,20 +1,34 @@
-//This contains code for the landing page of the web application
+//This contains code for the client page of the web application
 import React, { } from "react";
- 
-import {Link} from 'react-router-dom';
- 
-export default function HomePage(){
- 
+
+import { Link } from 'react-router-dom';
+
+import "./stylesheets/home.css";
+
+export default function ClientHome() {
+
+  let employee = "Kunta";
+
   return (
     <div>
-        <div className="container h-100">
-            <div className="row h-100">
-                <div className="col-12">
-                    <h1>Welcome to Jabali supermarket</h1>
-                    <p><Link to="/check" className="btn btn-success">Check Customer</Link> | <Link to="/add" className="btn btn-success">Add Product</Link> </p>
-                </div>
-            </div>
+      <div className="bg-img">
+        <div className="container">
+          <div className="top-nav">
+            <a href="#home">HOME</a>
+            <a href="#about">ABOUT</a>
+            <a href="#contact">CONTACT</a>
+            <a href="#contact">LOGIN</a>
+          </div>
+          <div className="content">
+            <h1>Welcome {employee} to Jabali supermarket</h1>
+            <p>Start your shopping experience below</p>
+          </div>
+          <div className="button">
+            <button><Link to = "/check">CHECK CUSTOMER</Link></button>
+            <button><Link to = "/add">ADD PRODUCT</Link></button>
+          </div>
         </div>
+      </div>
     </div>
   );
 }
