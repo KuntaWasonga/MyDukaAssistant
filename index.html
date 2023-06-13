@@ -1,0 +1,37 @@
+<<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SCANNER</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode@9.6.20/dist/dbr.js"></script>
+    </head>
+    <body>
+        <div id="div-ui-container" style="width:100%;height:100%;">
+            <div class="dce-video-container" style="position:relative;width:100%;height:500px;">
+                <button onclick="peace();">WOW</button>
+            </div>
+        </div>
+        <script>
+
+            let peace = (async () => {
+                let scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();
+                await scanner.setUIElement(document.getElementById('div-ui-container'));
+                scanner.onFrameRead = results => {
+                    console.log(results);
+                };
+                scanner.onUniqueRead = (txt, result) => {
+                    alert(txt);
+                };
+                await scanner.show();
+            })();
+        </script>
+    </body>
+</html>>

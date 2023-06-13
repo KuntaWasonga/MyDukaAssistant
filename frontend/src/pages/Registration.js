@@ -1,6 +1,20 @@
 //This contains code for the register account page of the web application
 import React, { } from "react";
 
+import {
+	MDBBtn,
+	MDBContainer,
+	MDBRow,
+	MDBCol,
+	MDBCard,
+	MDBCardBody,
+	MDBInput,
+	MDBSelect,
+	MDBRadio
+  } from 'mdb-react-ui-kit';
+
+
+
 import { Link } from 'react-router-dom';
 
 export default function RegistrationPage() {
