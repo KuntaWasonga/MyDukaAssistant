@@ -10,9 +10,9 @@ def get_uuid():
 #This class defines the client of the supermarket
 class User(db.Model):
     __tablename__ = "user"
-    id = db.Column(db.String(2), primary_key=True, unique=True, default=get_uuid)
-    firstname = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
-    lastname = db.Column(db.String(20), primary_key=True, unique=True)
+    id = db.Column(db.String(180), primary_key=True, unique=True, default=get_uuid)
+    firstname = db.Column(db.String(20), primary_key=True, nullable=False)
+    lastname = db.Column(db.String(20), primary_key=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     about = db.Column(db.Text)
