@@ -15,7 +15,7 @@ from models import *
 api = Flask(__name__)
 
 # configure the SQLite database, relative to the app instance folder
-api.config['SECRET_KEY'] = 'lhya67'
+api.config['SECRET_KEY'] = '865056bb9e4a5162b711a9a0a967a791'
 api.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mda.db"
 api.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
@@ -40,11 +40,14 @@ def token_required(f):
 
        if not token:
            return jsonify({'message': 'a valid token is missing'})
+       
        try:
-           data = jwt.decode(token, api.config['SECRET_KEY'])
+           data = jwt.decode(token, api.config['SECRET_KEY'], algorithms=['HS256'])
            current_user = User.query.filter_by(id=data['user_id']).first()
-       except:
-           return jsonify({'message': 'token is invalid'})
+       except jwt.ExpiredSignatureError:
+            return jsonify({'message': 'Token has expired'})
+       except jwt.InvalidTokenError:
+            return jsonify({'message': 'Invalid token'})
 
        return f(current_user, *args, **kwargs)
    return decorator
@@ -87,7 +90,7 @@ def create_token():
         return jsonify({"message": "User does not exist"}), 401
 
     if check_password_hash(user.password, auth.password):
-        token = jwt.encode({'user_id': user.id, 'exp': datetime.utcnow() + timedelta(minutes = 45)}, api.config['SECRET_KEY'])
+        token = jwt.encode({'user_id': user.id, 'exp': datetime.now() + timedelta(hours = 1)}, api.config['SECRET_KEY'])
 
         return jsonify({'token' : token})
 
@@ -96,15 +99,16 @@ def create_token():
 @api.route('/users')
 def users():
     
-    item = User.query.all()
+    users = User.query.all()
 
     output = []
-    for i in item:
+    for user in users:
         item_data = {}
-        item_data['firstname'] = item.firstname
-        item_data['lastname'] = item.lastname
-        item_data['email'] = item.email
-        item_data['password'] = item.password
+        item_data['firstname'] = user.firstname
+        item_data['lastname'] = user.lastname
+        item_data['email'] = user.email
+        item_data['password'] = user.password
+
         output.append(item_data)
         
     return jsonify({
@@ -113,18 +117,21 @@ def users():
     
 
 #This API edits various properties of a client
-@api.route("/user/edit", methods=["GET", "POST"])
+@api.route("/user/edit", methods=["PUT"])
 @token_required
 def edit(current_user):
     person = User.query.filter_by(email=current_user.email).first()
 
-    if request.method == "POST":
-        person.firstname = request.json.get('firstname', person.firstname)
-        person.lastname = request.json.get('lastname', person.lastname)
-        person.email = request.json.get('email', person.email)
-        person.bio = request.json.get('bio', person.bio)
+    if not person:
+        return jsonify({"message":"Not authorized"})
+
+    #if request.method == "POST":
+    person.firstname = request.json.get('firstname', person.firstname)
+    person.lastname = request.json.get('lastname', person.lastname)
+    person.email = request.json.get('email', person.email)
+    person.bio = request.json.get('bio', person.bio)
         
-        db.session.commit()
+    db.session.commit()
 
     return jsonify({'message': 'Person successfully updated!'})
 
@@ -246,5 +253,5 @@ def delete_product(current_user, product_id):
     return jsonify({'message' : 'Product deleted'})
 
 
-if  __name__ == '__main__': 
+if __name__ == '__main__': 
     api.run(debug=True)
