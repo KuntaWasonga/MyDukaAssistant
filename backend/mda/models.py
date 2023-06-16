@@ -31,7 +31,7 @@ class Employee(db.Model):
     employee_id = db.Column(db.Integer, unique = True)
     email = db.Column(db.String(150), unique = True)
     password = db.Column(db.Text, nullable=False)
-    admin = db.Column(db.Boolean)
+    admin = db.Column(db.Boolean, default=False)
 
 #This class defines a client and their items to be put on a cart
 class Cart(db.Model):
