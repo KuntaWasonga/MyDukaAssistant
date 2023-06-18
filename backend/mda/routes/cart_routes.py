@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from mda import db, app
+from mda import db
 from flask_login import current_user, login_required
 
 from mda.models import User, Employee, Product, Cart, cart_product
@@ -8,7 +8,7 @@ cart_bp = Blueprint('cart', __name__)
 
 
 #This adds additional items to a user's cart.
-@app.route('/updateCart/<scan>', methods=["PUT"])
+@cart_bp.route('/updateCart/<scan>', methods=["PUT"])
 @login_required
 def add_to_cart(scan):
     user = User.query.get(current_user.id)
@@ -39,7 +39,7 @@ def add_to_cart(scan):
     return jsonify({"message": "Unauthorized access"}), 401
 
 
-@app.route('/removeFromCart/<product_id>', methods=['DELETE'])
+@cart_bp.route('/removeFromCart/<product_id>', methods=['DELETE'])
 @login_required
 def removeFromCart(product_id):
     cart = Cart.query.filter_by(client_id=current_user.id).first()
@@ -53,7 +53,7 @@ def removeFromCart(product_id):
         return jsonify({"message": "Product deleted successfully"}), 200
 
 
-@app.route('/viewcart')
+@cart_bp.route('/viewcart')
 @login_required
 def viewCart():
     cart = Cart.query.filter_by(client_id=current_user.id).first()
@@ -79,12 +79,12 @@ def viewCart():
 
 
 
-@app.route('/checkout')
+@cart_bp.route('/checkout')
 @login_required
 def checkOut():
     remove = 1
 
-@app.route('/clearCart')
+@cart_bp.route('/clearCart')
 @login_required
 def clearCart():
     remove = 1
