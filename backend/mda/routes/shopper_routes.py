@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from mda import db, app
+from mda import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, login_required, logout_user
 
@@ -9,7 +9,7 @@ shopper_bp = Blueprint('user', __name__)
 
 
 #This API registers a client to the database
-@app.route("/user/register", methods=["GET", "POST"])
+@shopper_bp.route("/user/register", methods=["GET", "POST"])
 def signup():
     data = request.get_json()
     if not data:
@@ -41,7 +41,7 @@ def signup():
 
 
 #This API is responsible for User login
-@app.route("/user/login", methods=['POST'])
+@shopper_bp.route("/user/login", methods=['POST'])
 def login():
     data = request.get_json()
     required_fields = ['username', 'password']
@@ -60,7 +60,7 @@ def login():
 
 
 #This API edits various properties of a client
-@app.route("/user/edit", methods=["PUT"])
+@shopper_bp.route("/user/edit", methods=["PUT"])
 @login_required
 def edit():
     data = request.get_json()
@@ -87,13 +87,13 @@ def edit():
 
 
 #This API logs out a User
-@app.route('/user/logout', methods=['POST'])
+@shopper_bp.route('/user/logout', methods=['POST'])
 def logout():
     logout_user()
     return jsonify({'message' : 'Logout successful'}), 200
 
 #This API deletes a client from the database
-@app.route("/user/delete", methods =['DELETE'])
+@shopper_bp.route("/user/delete", methods =['DELETE'])
 @login_required
 def delete():
     mtu = User.query.get(current_user.id)
