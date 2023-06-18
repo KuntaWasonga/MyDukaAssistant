@@ -1,6 +1,6 @@
 import uuid
 from flask import Blueprint, request, jsonify
-from mda import db, app
+from mda import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, login_required, logout_user
 
@@ -21,7 +21,7 @@ def get_uuid_from_integer(integer_value):
 
 
 #This API registers an Employee to the database
-@app.route("/employee/register", methods=["GET", "POST"])
+@employee_bp.route("/employee/register", methods=["GET", "POST"])
 def signup():
     data = request.get_json()
     if not data:
@@ -34,17 +34,18 @@ def signup():
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
 
     #Check if the employee already exists
-    user = User.query.filter_by(employee_id=data['employee_id']).first()
+    user = Employee.query.filter_by(employee_id=data['employee_id']).first()
     if user:
         return jsonify({"error": "Employee already exists"}), 409
 
     #Ensures employee credentials are well protected
     hashed_password = generate_password_hash(data['password'])
-    id_uuid = get_uuid_from_integer(data['employee_id'])
+    #id_uuid = get_uuid_from_integer(data['employee_id'])
 
     new_employee = Employee(
-        employee_id = id_uuid,
-        email = data['lastname'],
+        id = data['id'],
+        employee_id = data['employee_id'],
+        email = data['email'],
         password = hashed_password,
         admin = data['admin'])
 
@@ -55,7 +56,7 @@ def signup():
 
 
 #This API is responsible for Employee login
-@app.route("/employee/login", methods=['POST'])
+@employee_bp.route("/employee/login", methods=['POST'])
 def login():
     data = request.get_json()
     required_fields = ['employee_id', 'password']
@@ -63,8 +64,7 @@ def login():
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
 
-    id_uuid = get_uuid_from_integer(data['employee_id'])
-    user = Employee.query.filter_by(employee_id=id_uuid).first()
+    user = Employee.query.filter_by(employee_id=data["employee_id"]).first()
     if user:
         if check_password_hash(user.password, data["password"]):
             login_user(user)
@@ -73,7 +73,7 @@ def login():
     return jsonify({'message': 'Invalid credentials'}), 401
 
 #This API logs out a User
-@app.route('/employee/logout', methods=['POST'])
+@employee_bp.route('/employee/logout', methods=['POST'])
 def logout():
     logout_user()
     return jsonify({'message' : 'Logout successful'}), 200
@@ -81,26 +81,29 @@ def logout():
 
 #---------------------------------ADMIN ROUTES------#
 #This API lets the admin check all the users in the users database
-@app.route('/employee/users')
+@employee_bp.route('/employee/users')
 @login_required
 def users():
-    users = User.query.all()
+    adm = Employee.query.get(current_user.id)
+    if adm.admin:
+        users = User.query.all()
 
-    output = []
-    for User in users:
-        item_data = {}
-        item_data['firstname'] = User.firstname
-        item_data['lastname'] = User.lastname
-        item_data['email'] = User.email
-        #item_data['password'] = User.password
+        output = []
+        for u in users:
+            item_data = {}
+            item_data['firstname'] = User.firstname
+            item_data['lastname'] = User.lastname
+            item_data['email'] = User.email
+            #item_data['password'] = User.password
 
-        output.append(item_data)
-        
-    return jsonify({"users" : output})
+            output.append(item_data)
+            
+        return jsonify({"users" : output})
+    return jsonify({"message": "unauthorized access"})
 
 
 #This API lets only an admin delete an employee from the database
-@app.route("/employee/delete/<id>", methods =['DELETE'])
+@employee_bp.route("/employee/delete/<id>", methods =['DELETE'])
 @login_required
 def delete(id):
     mtu = Employee.query.get(current_user.id)
