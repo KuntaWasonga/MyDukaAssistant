@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
         return f"User('{self.firstname}', '{self.email}')"
 
 #This class defines the employee of the supermarket
-class Employee(db.Model):
+class Employee(db.Model, UserMixin):
     __tablename__ = "employees"
     id = db.Column(db.String(2), primary_key=True, unique=True)
     employee_id = db.Column(db.Integer, unique = True)
