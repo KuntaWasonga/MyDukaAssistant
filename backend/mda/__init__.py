@@ -20,17 +20,15 @@ migrate = Migrate(app, db)
 
 login_manager = LoginManager(app)
 
-#from mda import routes
-
 #---------------------BLUEPRINT IMPORTS--------------------------------#
-from routes.shopper_routes import shopper_bp
+from .routes.shopper_routes import shopper_bp
 app.register_blueprint(shopper_bp)
 
-from routes.employee_routes import employee_bp
+from .routes.employee_routes import employee_bp
 app.register_blueprint(employee_bp)
 
-from routes.product_routes import product_bp
+from .routes.product_routes import product_bp
 app.register_blueprint(product_bp)
 
-from routes.cart_routes import cart_bp
+from .routes.cart_routes import cart_bp
 app.register_blueprint(cart_bp)
