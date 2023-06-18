@@ -1,13 +1,14 @@
 from flask import Blueprint, request, jsonify
-from mda import db, app
+from mda import db
 from flask_login import current_user, login_required
 
 from mda.models import User, Employee, Product
+
 product_bp = Blueprint('product', __name__)
 
 
 #This API adds a new product to the database
-@app.route('/product/add', methods=['POST'])
+@product_bp.route('/product/add', methods=['POST'])
 @login_required
 def new_product():
     # Check if the user is an employee
@@ -42,7 +43,7 @@ def new_product():
 
 
 #This API reads properties of a product
-@app.route('/product/scan/<scan>')
+@product_bp.route('/product/scan/<scan>')
 @login_required
 def read_product(scan):
     item = Product.query.filter_by(barcode=scan).first()
@@ -62,7 +63,7 @@ def read_product(scan):
 
 
 #This API updates properties of a product
-@app.route('/product/update/<product_id>', methods=['PUT'])
+@product_bp.route('/product/update/<product_id>', methods=['PUT'])
 @login_required
 def update_product(product_id):
     #checks for User access (meant to be employees only)
@@ -85,7 +86,7 @@ def update_product(product_id):
 
 
 #This API deletes a product
-@app.route('/product/delete/<product_id>', methods=['DELETE'])
+@product_bp.route('/product/delete/<product_id>', methods=['DELETE'])
 @login_required
 def delete_product(product_id):
     #checks for User access (meant to be employees only)
