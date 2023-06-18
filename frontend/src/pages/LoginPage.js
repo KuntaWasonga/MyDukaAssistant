@@ -1,5 +1,9 @@
 //This contains code for the landing page of the web application
 import React, { } from "react";
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
  
 //import {Link} from 'react-router-dom';
  
@@ -12,11 +16,15 @@ export default function LoginPage(){
   //If client, go to client home page.
 
   return (
-    <div>
-        <div className="bg-img">
-
-          
-        </div>
-    </div>
+    <Container>
+      <Row>
+        <Col sm={5}>
+          image
+        </Col>
+        <Col sm={7}>
+          loginform
+        </Col>
+      </Row>
+    </Container>
   );
 }
