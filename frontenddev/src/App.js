@@ -23,14 +23,16 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
+{/*---------------------------USER ROUTES-------------------------------*/}
             <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/registerE" element={<RegistrationPageE />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/loginE" element={<LoginE />} />
             <Route path="/client" element={<ClientHome />} />
-            <Route path="/employee" element={<EmployeeHome />} />
             <Route path="/scan" element={<ScanItem />} />
             <Route path="/cart" element={<ViewCart />} />
+{/*------------------------EMPLOYEE ROUTES------------------------------*/}
+            <Route path="/registerE" element={<RegistrationPageE />} />
+            <Route path="/loginE" element={<LoginE />} />
+            <Route path="/employee" element={<EmployeeHome />} />
             <Route path="/check" element={<CheckCustomer />} />
             <Route path="/add" element={<AddProduct />} />
           </Routes>
