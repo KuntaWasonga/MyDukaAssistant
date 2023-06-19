@@ -12,6 +12,10 @@ import CheckCustomer from "./pages/CheckCustomer";
 import AddProduct from "./pages/AddProduct";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from './pages/Registration';
+import LoginE from './pages/LoginE';
+import RegistrationPageE from './pages/RegistrationE';
+
+
 
 function App() {
   return (
@@ -19,14 +23,16 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<RegistrationPage />} />
+            <Route path="/registerE" element={<RegistrationPageE />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/loginE" element={<LoginE />} />
             <Route path="/client" element={<ClientHome />} />
+            <Route path="/employee" element={<EmployeeHome />} />
             <Route path="/scan" element={<ScanItem />} />
             <Route path="/cart" element={<ViewCart />} />
-            <Route path="/employee" element={<EmployeeHome />} />
             <Route path="/check" element={<CheckCustomer />} />
             <Route path="/add" element={<AddProduct />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegistrationPage />} />
           </Routes>
         </BrowserRouter>
     </div>
