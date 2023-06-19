@@ -10,15 +10,15 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-
-import "./stylesheets/login.css";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 
+import "./stylesheets/login.css";
 
 
-export default function LoginPage() {
 
-  const [userName, setuserName] = useState('');
+export default function LoginPageE() {
+
+  const [employeeID, setemployeeID] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -34,14 +34,14 @@ export default function LoginPage() {
 
   const handleSubmit = async (event) => {
 
-    axios.post('http://127.0.0.1:5000/user/login', {
-      "username": userName,
+    axios.post('http://127.0.0.1:5000/employee/login', {
+      "employee_id": employeeID,
       "password": password
     })
       .then((response) => {
         console.log(response);
         const msg = response["message"]
-        navigate("/", { state: { msg } });
+        navigate("/employee", { state: { msg } });
       })
       .catch((error) => {
         // Handle the error response from the backend
@@ -60,13 +60,13 @@ export default function LoginPage() {
             {error && <Alert variant="danger">{error}</Alert>}
             <Row>
               <Col>
-                <FloatingLabel controlId="formUsername" label="Username"
+                <FloatingLabel controlId="formUsername" label="EmployeeID"
                   className="mb-3">
                   <Form.Control
-                    type="text"
-                    placeholder="Enter username"
-                    value={userName}
-                    onChange={(e) => setuserName(e.target.value)}
+                    type="number"
+                    placeholder="Enter employeeID"
+                    value={employeeID}
+                    onChange={(e) => setemployeeID(e.target.value)}
                   />
                 </FloatingLabel>
               </Col>
