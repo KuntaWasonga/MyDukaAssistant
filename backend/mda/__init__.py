@@ -2,9 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 #instantiate the app
 app = Flask(__name__)
+
 
 #-----------------DATABASE CONFIGURATIONS----------------------------#
 # configure the SQLite database, relative to the app instance folder
@@ -16,9 +18,11 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
+
 #--------------------LOGIN CONFIGURATION-----------------------------#
 
 login_manager = LoginManager(app)
+
 
 #---------------------BLUEPRINT IMPORTS--------------------------------#
 from .routes.shopper_routes import shopper_bp
