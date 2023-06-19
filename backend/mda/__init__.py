@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 
 #-----------------DATABASE CONFIGURATIONS----------------------------#
-# configure the SQLite database, relative to the app instance folder
 app.config['SECRET_KEY'] = '865056bk9e4a5162b711a9a0a967a791'
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///myda.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
