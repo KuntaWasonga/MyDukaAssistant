@@ -1,0 +1,88 @@
+.box {
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("16787.jpg");
+    background-color: black;
+    background-size: cover;
+}
+
+/* Target the navigation bar links */
+.navbar a.nav-link {
+    color: white;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Target the dropdown menu items */
+.navbar .dropdown-menu {
+    color: white;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Target the navbar brand */
+.navbar .navbar-brand {
+    color: black;
+    font-size: 45px;
+    font-family: 'Vivaldi', cursive;
+}
+
+.karibu {
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message {
+    opacity: 0;
+    animation: fade-in-animation 1s ease-in forwards;
+    font-size: 80px;
+    font-family: 'Open Sans';
+    color: goldenrod;
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes fade-in-animation {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.check {
+    background-color: transparent;
+    border-color: rgb(49, 38, 10);
+    color: rgb(49, 38, 10);
+}
+
+.check:hover,
+.check:focus {
+    background-color: rgb(49, 38, 10);
+    border-color: black;
+    color: #ffffff;
+}
+
+.add {
+    background-color: transparent;
+    border-color: rgb(49, 38, 10);
+    color: rgb(49, 38, 10);
+}
+
+.add:hover,
+.add:focus {
+    background-color: rgb(49, 38, 10);
+    border-color: black;
+    color: #ffffff;
+}
+
+.justify-content-md-center {
+    height: 5vh;
+    width: 100%;
+
+}

@@ -1,4 +1,10 @@
+.box {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("16787.jpg");
+  background-color: black;
+  background-size: cover;
+}
+
 .custom-modal .modal-content{
-    background-color: rgba(72, 57, 28, 0.402);
+    background-color: rgb(209, 208, 206);
     box-shadow: none;
   }
