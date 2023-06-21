@@ -23,6 +23,10 @@ def new_product():
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
         return jsonify({'message': f'Missing fields: {", ".join(missing_fields)}'}), 400
+    
+    empty_fields = [field for field in required_fields if not data.get(field)]
+    if empty_fields:
+        return jsonify({"message": f"Empty fields: {', '.join(empty_fields)}"}), 400
 
     # Check if the product already exists
     product_exists = Product.query.filter_by(barcode=data['barcode']).first()
@@ -42,7 +46,6 @@ def new_product():
     return jsonify({'message': f'{new_product.name} added'}), 200
 
 
-#This API reads properties of a product
 @product_bp.route('/product/scan/<scan>')
 @login_required
 def read_product(scan):
@@ -50,16 +53,17 @@ def read_product(scan):
 
     if item:
         output = []
-        for i in item:
-            item_data = {}
-            item_data['id'] = item.id
-            item_data['barcode'] = item.barcode
-            item_data['name'] = item.name
-            item_data['price'] = item.price
-            output.append(item_data)
+        item_data = {}
+        item_data['id'] = item.id
+        item_data['barcode'] = item.barcode
+        item_data['name'] = item.name
+        item_data['price'] = item.price
+        output.append(item_data)
 
         return jsonify({'item': output}), 200
-    return jsonify({'message':'This item does not exist'}), 409
+
+    return jsonify({'message': 'This item does not exist'}), 409
+
 
 
 #This API updates properties of a product
