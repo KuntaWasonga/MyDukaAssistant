@@ -7,7 +7,6 @@ from mda.models import User, Employee, Product, Cart, cart_product
 cart_bp = Blueprint('cart', __name__)
 
 
-#This adds additional items to a user's cart.
 @cart_bp.route('/updateCart/<scan>', methods=["PUT"])
 @login_required
 def add_to_cart(scan):
@@ -25,15 +24,19 @@ def add_to_cart(scan):
                 db.session.commit()
 
             # Add the product to the cart or update the quantity if it already exists
-            cart_product = cart_product.query.filter_by(cart_id=cart.id, product_id=product.id).first()
+            cart_product = db.session.query(cart_product).filter_by(
+                cart_id=cart.id, product_id=product.id).first()
             if cart_product:
                 cart_product.quantity += 1
             else:
-                cart_product = cart_product(cart_id=cart.id, product_id=product.id, quantity=1)
-                db.session.add(cart_product)
+                quantity = 1
+                total = product.price * quantity
+                cart_product = cart_product.insert().values(
+                    cart_id=cart.id, product_id=product.id, quantity=quantity, Total=total)
+                db.session.execute(cart_product)
 
             db.session.commit()
- 
+
             return jsonify({"message": f"{product.name} added to cart successfully"}), 200
         return jsonify({"message": "Product not found"}), 404
     return jsonify({"message": "Unauthorized access"}), 401
@@ -44,7 +47,8 @@ def add_to_cart(scan):
 def removeFromCart(product_id):
     cart = Cart.query.filter_by(client_id=current_user.id).first()
     item = Product.query.filter_by(product_id=product_id).first
-    item_cart = cart_product.query.filter_by(cart_id=cart.id, product_id=item.id)
+    item_cart = cart_product.query.filter_by(
+        cart_id=cart.id, product_id=item.id)
 
     if item_cart:
         db.session.delete(item_cart)
@@ -57,7 +61,8 @@ def removeFromCart(product_id):
 @login_required
 def viewCart():
     cart = Cart.query.filter_by(client_id=current_user.id).first()
-    cart_items = db.session.query(cart_product, Product).join(Product).filter(cart_product.c.cart_id == cart.id).all()
+    cart_items = db.session.query(cart_product, Product).join(
+        Product).filter(cart_product.c.cart_id == cart.id).all()
 
     output = []
     total = 0
@@ -78,11 +83,11 @@ def viewCart():
     return jsonify({"Items": output, "TOTAL": total})
 
 
-
 @cart_bp.route('/checkout')
 @login_required
 def checkOut():
     remove = 1
+
 
 @cart_bp.route('/clearCart')
 @login_required
