@@ -4,4 +4,13 @@
     align-items: center;
     height: 75vh;
     background-color: antiquewhite;
+    z-index: 50;
 }
+
+
+.custom-alert {
+    height: 10vh;
+    align-items: center;
+    background-color: red;
+    color: white;
+  }
