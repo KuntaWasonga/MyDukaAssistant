@@ -21,17 +21,21 @@ def get_uuid_from_integer(integer_value):
 
 
 #This API registers an Employee to the database
-@employee_bp.route("/employee/register", methods=["GET", "POST"])
+@employee_bp.route("/employee/register", methods=["POST"])
 def signup():
     data = request.get_json()
     if not data:
         return jsonify({"error": "Invalid JSON"}), 400
 
     #Check for missing fields
-    required_fields = ['employee_id', 'email', 'password']
+    required_fields = ['id','employee_id', 'email', 'password']
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+    
+    empty_fields = [field for field in required_fields if not data.get(field)]
+    if empty_fields:
+        return jsonify({"error": f"Empty fields: {', '.join(empty_fields)}"}), 400
 
     #Check if the employee already exists
     user = Employee.query.filter_by(employee_id=data['employee_id']).first()
@@ -63,6 +67,10 @@ def login():
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
+    empty_fields = [field for field in required_fields if not data.get(field)]
+    if empty_fields:
+        return jsonify({"error": f"Empty fields: {', '.join(empty_fields)}"}), 400
 
     user = Employee.query.filter_by(employee_id=data["employee_id"]).first()
     if user:
