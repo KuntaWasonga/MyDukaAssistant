@@ -14,6 +14,7 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from './pages/Registration';
 import LoginE from './pages/LoginE';
 import RegistrationPageE from './pages/RegistrationE';
+import Checkout from './pages/Checkout';
 
 
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/client" element={<ClientHome />} />
             <Route path="/scan" element={<ScanItem />} />
             <Route path="/cart" element={<ViewCart />} />
+            <Route path="/checkout" element={<Checkout />} />
 {/*------------------------EMPLOYEE ROUTES------------------------------*/}
             <Route path="/registerE" element={<RegistrationPageE />} />
             <Route path="/loginE" element={<LoginE />} />
