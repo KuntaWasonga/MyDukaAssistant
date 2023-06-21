@@ -32,7 +32,7 @@ export default function LoginPageE() {
     navigate("/");
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
 
     axios.post('http://127.0.0.1:5000/employee/login', {
       "employee_id": employeeID,
@@ -40,24 +40,23 @@ export default function LoginPageE() {
     })
       .then((response) => {
         console.log(response);
-        const msg = response["message"]
+        const msg = response.data.message;
         navigate("/employee", { state: { msg } });
       })
       .catch((error) => {
-        // Handle the error response from the backend
-        setError(error.message);
+        setError(error.response.error);
       });
   }
 
   return (
     <div className="box">
+      {error && <Alert variant="danger">{error}</Alert>}
       <Modal show={show} onHide={handleClose} className="custom-modal">
         <Modal.Header closeButton>
           <Modal.Title>LOGIN</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            {error && <Alert variant="danger">{error}</Alert>}
             <Row>
               <Col>
                 <FloatingLabel controlId="formUsername" label="EmployeeID"
