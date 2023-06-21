@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 #instantiate the app
 app = Flask(__name__)
-
+CORS(app, supports_credentials=True)
 
 #-----------------DATABASE CONFIGURATIONS----------------------------#
 app.config['SECRET_KEY'] = '865056bk9e4a5162b711a9a0a967a791'
