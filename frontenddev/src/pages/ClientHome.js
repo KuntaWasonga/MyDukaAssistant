@@ -9,6 +9,7 @@ import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 
 import "./stylesheets/employee.css";
 
@@ -26,11 +27,11 @@ export default function EmployeeHome() {
     })
       .then((response) => {
         console.log(response);
-        const msg = response["message"]
+        const msg = response.data.message;
         navigate("/", { state: { msg } });
       })
       .catch((error) => {
-        setError(error.message);
+        setError(error.response.data.message);
       });
   }
 
@@ -45,24 +46,21 @@ export default function EmployeeHome() {
             <Nav className="ms-auto pe-3">
               <Nav.Link href="/">Profile</Nav.Link>
               <Nav.Link href="/about">About</Nav.Link>
-              <Nav.Link href="/logout" onClick={logout}>Logout</Nav.Link>
+              <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      {error && (<Alert variant="danger" className="custom-alert">
+            {error}
+          </Alert> )}
       {alertMessage && <div className="alert">{alertMessage}</div>}
       <div className="karibu">
         <h1 className="message">Welcome to Jabali</h1>
       </div>
       <Row className="justify-content-md-center">
-        <Col xs lg="2"><Button className="check" href="/scan">
+        <Col lg="3"><Button className="check" href="/scan">
           SCAN ITEM
-        </Button>
-        </Col>
-        <Col md = "auto"></Col>
-        <Col xs lg = "2">
-        <Button className="add" href="/add">
-          
         </Button>
         </Col>
       </Row>
