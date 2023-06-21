@@ -13,7 +13,6 @@ import Alert from 'react-bootstrap/Alert';
 import "./stylesheets/registration.css";
 
 
-//import {Link} from 'react-router-dom';
 
 export default function RegistrationPage() {
 
@@ -25,9 +24,10 @@ export default function RegistrationPage() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    axios.post('http://127.0.0.1:5000/register', {
+    axios.post('http://127.0.0.1:5000/user/register', {
       "firstname": firstName,
       "lastname": lastName,
       "email": email,
@@ -35,27 +35,27 @@ export default function RegistrationPage() {
     })
       .then((response) => {
         console.log(response);
-        const msg = response["message"];
+        const msg = response.data.message;
         navigate("/", { state: { msg } });
-        // Reset the form input values and clear any previous errors
         setFirstName('');
         setLastName('');
         setPassword('');
         setError('');
       })
       .catch((error) => {
-        // Handle the error response from the backend
-        setError(error.message);
+        setError(error.response.data.error);
       });
   }
-  //This is a form that should pop up on the 
-  //Check if user in employee or client database.
-  //Check for the necessary password with the hash key.
-  //If employee, go to employee home page.
-  //If client, go to client home page.
 
   return (
     <div>
+      <div className="alert-container">
+        {error && (
+          <Alert variant="danger" className="custom-alert">
+            {error}
+          </Alert>
+        )}
+      </div>
       <Container fluid>
         <Row>
           <Col sm={5}>
@@ -63,8 +63,7 @@ export default function RegistrationPage() {
           </Col>
           <Col sm={7}>
             <div className="reg-container">
-              <Form onSubmit={handleSubmit}>
-                {error && <Alert variant="danger">{error}</Alert>}
+              <Form>
                 <Row className="mb-3">
                   <Col>
                     <Form.Label>First name</Form.Label>
@@ -91,7 +90,8 @@ export default function RegistrationPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
                 </Form.Group>
-                <Button type="submit">Submit</Button>
+                <Button variant="primary" onClick={handleSubmit}>Submit</Button>
+                <Button variant="secondary" href="/">Close</Button>
               </Form>
             </div>
           </Col>
