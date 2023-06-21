@@ -32,7 +32,7 @@ export default function LoginPage() {
     navigate("/");
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
 
     axios.post('http://127.0.0.1:5000/user/login', {
       "username": userName,
@@ -41,11 +41,10 @@ export default function LoginPage() {
       .then((response) => {
         console.log(response);
         const msg = response["message"]
-        navigate("/", { state: { msg } });
+        navigate("/client", { state: { msg } });
       })
       .catch((error) => {
-        // Handle the error response from the backend
-        setError(error.message);
+        setError(error.response.data.message);
       });
   }
 
@@ -57,7 +56,6 @@ export default function LoginPage() {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            {error && <Alert variant="danger">{error}</Alert>}
             <Row>
               <Col>
                 <FloatingLabel controlId="formUsername" label="Username"
@@ -95,6 +93,9 @@ export default function LoginPage() {
           </Button>
         </Modal.Footer>
       </Modal>
+      {error && <Alert variant="danger" className="custom-alert">
+        {error}
+      </Alert>}
     </div>
   );
 }
