@@ -48,6 +48,10 @@ def login():
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+    
+    empty_fields = [field for field in required_fields if not data.get(field)]
+    if empty_fields:
+        return jsonify({"error": f"Empty fields: {', '.join(empty_fields)}"}), 400
 
     user = User.query.filter_by(firstname=data['username']).first()
     if user:
