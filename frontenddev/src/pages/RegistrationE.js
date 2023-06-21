@@ -16,37 +16,56 @@ import "./stylesheets/registration.css";
 
 export default function RegistrationPageE() {
 
+  const [id, setid] = useState('');
   const [employeeID, setemployeeID] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let [isAdmin, setAdmin] = useState(false);
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (employeeID === 4136) {
+      setAdmin = true;
+    } else if (employeeID !== 4136 && employeeID !== '') {
+      setAdmin = false;
+    } else if (employeeID === '') {
+      setAdmin = '';
+    }
 
     axios.post('http://127.0.0.1:5000/employee/register', {
-      "employeeID": employeeID,
+      "id": id,
+      "employee_id": employeeID,
       "email": email,
       "password": password,
+      "admin": isAdmin
     })
       .then((response) => {
         console.log(response);
-        const msg = response["message"];
+        const msg = response.data.message;
         navigate("/", { state: { msg } });
-        // Reset the form input values and clear any previous errors
+        setid('');
         setemployeeID('');
         setPassword('');
         setError('');
       })
       .catch((error) => {
-        // Handle the error response from the backend
-        setError(error.message);
+        setError(error.response.data.error);
       });
   }
 
   return (
     <div>
+      <div className="alert-container">
+        {error && (
+          <Alert variant="danger" className="custom-alert">
+            {error}
+          </Alert>
+        )}
+      </div>
       <Container fluid>
         <Row>
           <Col sm={5}>
@@ -54,13 +73,20 @@ export default function RegistrationPageE() {
           </Col>
           <Col sm={7}>
             <div className="reg-container">
-              <Form onSubmit={handleSubmit}>
-                {error && <Alert variant="danger">{error}</Alert>}
+              <Form>
                 <Row className="mb-3">
-                    <Form.Label>employeeID</Form.Label>
-                    <Form.Control placeholder="EmployeeID"
+                  <Col>
+                    <Form.Label>id</Form.Label>
+                    <Form.Control placeholder="id"
+                      value={id}
+                      onChange={(e) => setid(e.target.value)} />
+                  </Col>
+                  <Col>
+                    <Form.Label>Employee ID</Form.Label>
+                    <Form.Control placeholder="Employee ID"
                       value={employeeID}
                       onChange={(e) => setemployeeID(e.target.value)} />
+                  </Col>
                 </Row>
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                   <Form.Label>Email address</Form.Label>
@@ -74,7 +100,8 @@ export default function RegistrationPageE() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
                 </Form.Group>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                <Button variant="secondary" href="/">Close</Button>
               </Form>
             </div>
           </Col>
