@@ -67,17 +67,17 @@ def read_product(scan):
 
 
 #This API updates properties of a product
-@product_bp.route('/product/update/<product_id>', methods=['PUT'])
+@product_bp.route('/product/update', methods=['PUT'])
 @login_required
-def update_product(product_id):
+def update_product():
     #checks for User access (meant to be employees only)
     user_authorized = Employee.query.filter_by(email=current_user.email).first()
     if user_authorized:
         data = request.get_json()
         #checks if product exists
-        product = Product.query.filter_by(id=product_id).first()
+        product = Product.query.filter_by(barcode=data['barcode']).first()
         if product:
-            product.id = data['id'],
+            product.id = data['id']
             product.barcode = data['barcode']
             product.name = data['name']
             product.price = data['price']
