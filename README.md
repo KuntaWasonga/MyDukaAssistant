@@ -63,7 +63,6 @@ To set up the project on your local computer, follow these steps:
         ```bash
         npm run start
 
-
 ## Author
 Kunta Wasonga
 
