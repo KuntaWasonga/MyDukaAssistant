@@ -24,9 +24,21 @@ export default function AddProduct() {
     const [price, setPrice] = useState('');
     const [formField, setFormField] = useState('');
     const [error, setError] = useState('');
+    const [user, setUser] = useState('');
 
     const navigate = useNavigate();
     const videoRef = useRef(null);
+
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/employee/current')
+            .then(response => {
+                setUser(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, []);
 
     useEffect(() => {
         if (scanActive) {
@@ -163,17 +175,17 @@ export default function AddProduct() {
                                 }}
                             />
                         </FloatingLabel>
-                        <Row>
+                        {user && <div><Row>
                             <Button variant="primary" onClick={handleSubmit}>
                                 Add product
                             </Button>
                         </Row>
-                        <Row></Row>
-                        <Row>
-                            <Button variant="secondary" href="/employee">
-                                Cancel
-                            </Button>
-                        </Row>
+                            <Row></Row>
+                            <Row>
+                                <Button variant="secondary" href="/employee">
+                                    Cancel
+                                </Button>
+                            </Row> </div>}
                     </Col>
                 </Row>
             </Container>
