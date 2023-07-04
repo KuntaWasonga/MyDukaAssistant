@@ -69,7 +69,7 @@ export default function RegistrationPageE() {
       <Container fluid>
         <Row>
           <Col sm={5}>
-            image
+            
           </Col>
           <Col sm={7}>
             <div className="reg-container">
