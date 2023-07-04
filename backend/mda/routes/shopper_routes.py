@@ -106,4 +106,3 @@ def delete():
         db.session.commit()
         return jsonify({'message': f'{mtu.firstname} successfully deleted'}), 200
     return jsonify({'message': 'Not authorized'}), 409
-
