@@ -35,26 +35,29 @@ To set up the project on your local computer, follow these steps:
 
 2. Install required dependencies:
     - Backend:
-        - Run the Flask development server:
+    Run the Flask development server:
         ```bash
         cd backend
 
-        - Install python dependencies:
+    Install python dependencies:
         ```bash
         pip install -r requirements.txt
 
     - Frontend:
-        - Navigate to the frontend directory:
+    Navigate to the frontend directory:
         ```bash
         cd frontenddev
 
-        - Install Node.js dependencies:
+    Install Node.js dependencies:
         ```bash
+        npm install
+
 3. Start the development servers:
     - Backend:
         - Run the Flask development server:
         ```bash
         flask run
+
     - Frontend:
         - Start the React development server:
         ```bash
